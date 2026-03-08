@@ -1,4 +1,4 @@
-# Sistema de Información Empresarial (SiE) - Proyecto UAMI
+# Sistema de Información Escolar (SiE) - Proyecto UAMI
 
 Este repositorio contiene la configuración y despliegue de la infraestructura para una Fábrica de Software basada en **Rocky Linux 10**, ejecutada desde una unidad externa de 320GB.
 
