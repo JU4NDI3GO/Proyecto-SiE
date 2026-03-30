@@ -27,15 +27,6 @@ Esta sección detalla los fundamentos de ingeniería aplicados en el **Módulo 1
 
 * **Estrategia DEV-TEST-PROD**: Se implementó una separación de entornos para garantizar la estabilidad del SiE. El entorno **DEV** se centró en la configuración de contenedores Podman y PostgreSQL, mientras que **TEST** se utilizó para validar la conectividad de red entre los servicios de Mayan EDMS y Redis.
 * **Referencia SWEBOK**: Se aplicaron los principios de la **KA 6.2 (Entornos)** para el aislamiento de recursos y **KA 6.3.2 (Release Engineering)** para la gestión de versiones del despliegue.
-* **Dificultades**: Se identificaron cuellos de botella en la resolución de DNS internos y errores de conectividad (`Connection Refused`) durante la fase de integración de servicios en red.
-* **Evidencia (Script de Despliegue - Bash)**:
-```bash
-# Script de despliegue inicial del stack Admisión
-podman pod create --name sie-admision -p 8080:8000
-podman run -d --pod sie-admision --name sie-db -e POSTGRES_PASSWORD=uami postgres:15
-podman run -d --pod sie-admision --name sie-redis redis:7-alpine
-podman run -d --pod sie-admision --name sie-mayan mayanedms/mayanedms:latest
-```
 **Automatización y Rollback:** Para asegurar la continuidad, se diseñó un mecanismo de reversión basado en snapshots de volúmenes de datos y detención controlada de pods.
 **Referencia SWEBOK:** Conforme a la KA 6.3.3 (Rollback and Data Migration), se priorizó la integridad de la base de datos antes de cualquier actualización de esquema.
 **Evidencia:** [Enlace a script_rollback_admision.sh en repositorio]
