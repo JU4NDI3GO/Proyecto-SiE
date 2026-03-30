@@ -83,19 +83,19 @@ El equipo enfocó sus esfuerzos en la transición del modelo relacional hacia la
 
 * **Alcance de Despliegue**: Se logró el despliegue exitoso de la instancia de iDempiere sobre el stack de contenedores, permitiendo el acceso al Panel de Control del Sistema.
 * **Artefactos Clave**:
-    * [cite_start]**AD_Table**: Definición de la tabla maestra `Aspirante` con campos normalizados para CURP y RFC[cite: 187, 219].
+    * **AD_Table**: Definición de la tabla maestra `Aspirante` con campos normalizados para CURP y RFC[cite: 187, 219].
     * **AD_Element**: Creación de elementos de datos para `idUnicoAspirante` y `viaAdmision`[cite: 37, 215].
 * **Integridad Referencial**: Se garantizó la consistencia de datos en el nivel de **PostgreSQL 15** mediante la definición de llaves foráneas (*Foreign Keys*) entre las tablas `Convocatoria` y `SolicitudAdmision`, asegurando que ninguna solicitud exista sin un marco temporal válido[cite: 263].
-* [cite_start]**Prueba de Carga**: Se realizó una importación inicial de catálogos mediante scripts SQL para poblar las tablas de `Nivel Estudio` (Licenciatura/Posgrado) y `ViaAdmision`[cite: 109, 118].
+* **Prueba de Carga**: Se realizó una importación inicial de catálogos mediante scripts SQL para poblar las tablas de `Nivel Estudio` (Licenciatura/Posgrado) y `ViaAdmision`[cite: 109, 118].
 
 ### 4.2. Demostración Funcional
 
 Aunque el sistema se encuentra en fase de prototipo, se ha validado el **Flujo Crítico de Registro y Validación**:
 
-1.  [cite_start]**Inicio**: El aspirante accede al formulario de registro (Capa *Boundary*) e ingresa sus datos personales[cite: 47, 73].
-2.  [cite_start]**Validación de Identidad**: El sistema genera un `idUnicoAspirante` y realiza una verificación de duplicidad[cite: 213, 215].
-3.  [cite_start]**Carga Documental**: Se inicia el estado `PENDIENTE_CARGA` en la máquina de estados, permitiendo la vinculación de archivos mediante el servicio de Mayan EDMS[cite: 90, 123, 232].
-4.  [cite_start]**Cierre de Solicitud**: El registro transita al estado `REGISTRADO` una vez que se completan los requisitos mínimos (Promedio y CURP)[cite: 96, 224].
+1.  **Inicio**: El aspirante accede al formulario de registro (Capa *Boundary*) e ingresa sus datos personales[cite: 47, 73].
+2.  **Validación de Identidad**: El sistema genera un `idUnicoAspirante` y realiza una verificación de duplicidad[cite: 213, 215].
+3.  **Carga Documental**: Se inicia el estado `PENDIENTE_CARGA` en la máquina de estados, permitiendo la vinculación de archivos mediante el servicio de Mayan EDMS[cite: 90, 123, 232].
+4.  **Cierre de Solicitud**: El registro transita al estado `REGISTRADO` una vez que se completan los requisitos mínimos (Promedio y CURP)[cite: 96, 224].
 
 **Evidencia Visual**:
 * *[Archivo: Captura_Formulario_Registro.png]* - Interfaz de entrada de datos del aspirante.
