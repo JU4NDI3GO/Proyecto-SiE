@@ -2,7 +2,7 @@
 
 ## Topología de Hardware
 - **Servidor (Host):** Disco Externo 320GB con Rocky Linux 10.
-- **Cliente:** Laptop Dell con Windows 10 (Terminal/PowerShell).
+- **Cliente:** Laptop con Windows 10 (Terminal/PowerShell).
 
 ## Configuración de Acceso SSH
 Se implementó seguridad mediante llaves asimétricas (PKI):
