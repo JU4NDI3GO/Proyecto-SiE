@@ -135,13 +135,13 @@ De acuerdo con el área de **Gestión de la Ingeniería de Software (KA 7)**, se
 
 | Ítem de Deuda Técnica | Descripción | Prioridad | Plan de Acción |
 | :--- | :--- | :--- | :--- |
-| **Refactorización de Red** | [cite_start]Optimización de la comunicación entre Pods para eliminar latencias en el servicio de Mayan EDMS[cite: 224]. | **Alta** | Configurar una red de puente (Bridge) dedicada en Podman. |
-| **Automatización de Pruebas** | [cite_start]Cobertura completa de pruebas unitarias para el cálculo de puntajes y asignación de cupos[cite: 227, 228]. | **Media** | Implementar suite de pruebas en Python/PyTest durante el siguiente sprint. |
-| **Migración de Metadatos** | [cite_start]Mapeo total de las ventanas de iDempiere pendientes según el modelo de Enterprise Architect[cite: 140]. | **Baja** | Programar carga masiva de AD_Window en la fase de estabilización. |
+| **Refactorización de Red** | Optimización de la comunicación entre Pods para eliminar latencias en el servicio de Mayan EDMS[cite: 224]. | **Alta** | Configurar una red de puente (Bridge) dedicada en Podman. |
+| **Automatización de Pruebas** | Cobertura completa de pruebas unitarias para el cálculo de puntajes y asignación de cupos[cite: 227, 228]. | **Media** | Implementar suite de pruebas en Python/PyTest durante el siguiente sprint. |
+| **Migración de Metadatos** | Mapeo total de las ventanas de iDempiere pendientes según el modelo de Enterprise Architect[cite: 140]. | **Baja** | Programar carga masiva de AD_Window en la fase de estabilización. |
 
 ---
 ### Conclusión Final del Informe
-El **Módulo 1: Admisión** queda entregado con una base arquitectónica sólida y una infraestructura operativa en Rocky Linux. [cite_start]Aunque existen retos de implementación pendientes, el valor entregado en términos de **Análisis de Requisitos** y **Diseño de Datos** asegura que la UAM Iztapalapa cuente con una hoja de ruta clara para la automatización total de su proceso de ingreso[cite: 148, 280, 285].
+El **Módulo 1: Admisión** queda entregado con una base arquitectónica sólida y una infraestructura operativa en Rocky Linux. Aunque existen retos de implementación pendientes, el valor entregado en términos de **Análisis de Requisitos** y **Diseño de Datos** asegura que la UAM Iztapalapa cuente con una hoja de ruta clara para la automatización total de su proceso de ingreso[cite: 148, 280, 285].
 
 ---
 ## 6. Conclusiones y Recomendaciones
@@ -150,14 +150,14 @@ El **Módulo 1: Admisión** queda entregado con una base arquitectónica sólida
 
 ### 6.1. Recomendaciones para el Uso del Módulo
 Para completar el módulo y asegurar su operatividad institucional, se recomienda:
-* [cite_start]**Finalización del Mapeo de Metadatos**: Completar la vinculación de todas las entidades del modelo UML (como `Vulnerabilidad` y `ResultadoAdmision`) hacia el Diccionario Activo de iDempiere[cite: 50, 69, 106].
-* [cite_start]**Estabilización de Integraciones**: Resolver la persistencia y resolución de nombres en el entorno de Podman para asegurar la comunicación fluida con el motor de estados y el subsistema de auditoría[cite: 232, 239, 276].
-* [cite_start]**Validación de Carga**: Ejecutar pruebas de estrés para simular la concurrencia de miles de aspirantes, validando el rendimiento del procesamiento por lotes en la asignación de cupos[cite: 246, 247, 271].
+* **Finalización del Mapeo de Metadatos**: Completar la vinculación de todas las entidades del modelo UML (como `Vulnerabilidad` y `ResultadoAdmision`) hacia el Diccionario Activo de iDempiere[cite: 50, 69, 106].
+* **Estabilización de Integraciones**: Resolver la persistencia y resolución de nombres en el entorno de Podman para asegurar la comunicación fluida con el motor de estados y el subsistema de auditoría[cite: 232, 239, 276].
+* **Validación de Carga**: Ejecutar pruebas de estrés para simular la concurrencia de miles de aspirantes, validando el rendimiento del procesamiento por lotes en la asignación de cupos[cite: 246, 247, 271].
 
 ### 6.2. Condiciones de Liberación
 Se recomienda la liberación del módulo para una **Fase Piloto del SiE** únicamente bajo las siguientes condiciones:
-* [cite_start]**Monitoreo Continuo**: Seguimiento de la métrica de **Integridad de Transacciones** en el subsistema de auditoría durante las primeras 4 semanas de uso[cite: 242, 273].
-* [cite_start]**Entorno Controlado**: El despliegue inicial debe limitarse a una sola Unidad (ej. Iztapalapa) para validar el comportamiento del **Pipeline de Selección** antes de una escalada horizontal[cite: 222, 253, 271].
+* **Monitoreo Continuo**: Seguimiento de la métrica de **Integridad de Transacciones** en el subsistema de auditoría durante las primeras 4 semanas de uso[cite: 242, 273].
+* **Entorno Controlado**: El despliegue inicial debe limitarse a una sola Unidad (ej. Iztapalapa) para validar el comportamiento del **Pipeline de Selección** antes de una escalada horizontal[cite: 222, 253, 271].
 
 ---
 ## 7. Anexos y Referencias
@@ -168,14 +168,14 @@ Se adjunta el enlace al documento de control que vincula los Requerimientos del 
 
 ### 7.2. Referencias Bibliográficas
 * **IEEE Computer Society. (2025).** *Guide to the Software Engineering Body of Knowledge (SWEBOK v4)*. Secciones consultadas:
-    * [cite_start]KA 1: Software Requirements[cite: 148].
-    * [cite_start]KA 2: Software Design[cite: 167].
-    * [cite_start]KA 5: Software Testing[cite: 222].
-    * [cite_start]KA 6: Software Engineering Operations[cite: 149].
-    * [cite_start]KA 8: Software Configuration Management[cite: 171].
-    * [cite_start]KA 12: Software Quality[cite: 280].
-    * [cite_start]KA 13: Software Security[cite: 248].
+    * KA 1: Software Requirements[cite: 148].
+    * KA 2: Software Design[cite: 167].
+    * KA 5: Software Testing[cite: 222].
+    * ]KA 6: Software Engineering Operations[cite: 149].
+    * KA 8: Software Configuration Management[cite: 171].
+    * KA 12: Software Quality[cite: 280].
+    * KA 13: Software Security[cite: 248].
 * **Repositorio Oficial SiE:** [https://github.com/jzavalar/SiE](https://github.com/jzavalar/SiE)
-* [cite_start]**Documentación Técnica del Proyecto:** * Especificación Técnica Completa SiE-UAM[cite: 144].
-    * [cite_start]Diagrama de Modelo de Datos - Módulo Admisión (Enterprise Architect)[cite: 12, 47, 123].
+* **Documentación Técnica del Proyecto:** * Especificación Técnica Completa SiE-UAM[cite: 144].
+    * Diagrama de Modelo de Datos - Módulo Admisión (Enterprise Architect)[cite: 12, 47, 123].
 * **Comunidad iDempiere:** Guía de configuración del Diccionario Activo (ADD) y manejo de AD_Table.
