@@ -71,3 +71,111 @@ podman run -d --pod sie-admision --name sie-mayan mayanedms/mayanedms:latest
 **Validaciones:** El sistema integra validaciones externas con RENAPO (CURP) y SAT (RFC) para garantizar la veracidad de la identidad.
 **Gestión de Identidad:** Uso de un generador de ID único transversal para evitar duplicidad y asegurar la trazabilidad.
 **Referencia SWEBOK:** Aplicación de KA 13.4 (Security Engineering for Software Systems) para la protección de la privacidad del aspirante.
+
+---
+## 4. Evidencias Técnicas del Producto
+
+Esta sección documenta el estado real del **Módulo 1: Admisión**, contrastando los diseños conceptuales con los artefactos técnicos generados y la infraestructura desplegada.
+
+### 4.1. Configuración del Diccionario Activo (iDempiere)
+
+El equipo enfocó sus esfuerzos en la transición del modelo relacional hacia la estructura de metadatos de iDempiere, logrando los siguientes hitos:
+
+* **Alcance de Despliegue**: Se logró el despliegue exitoso de la instancia de iDempiere sobre el stack de contenedores, permitiendo el acceso al Panel de Control del Sistema.
+* **Artefactos Clave**:
+    * [cite_start]**AD_Table**: Definición de la tabla maestra `Aspirante` con campos normalizados para CURP y RFC[cite: 187, 219].
+    * **AD_Element**: Creación de elementos de datos para `idUnicoAspirante` y `viaAdmision`[cite: 37, 215].
+* **Integridad Referencial**: Se garantizó la consistencia de datos en el nivel de **PostgreSQL 15** mediante la definición de llaves foráneas (*Foreign Keys*) entre las tablas `Convocatoria` y `SolicitudAdmision`, asegurando que ninguna solicitud exista sin un marco temporal válido[cite: 263].
+* [cite_start]**Prueba de Carga**: Se realizó una importación inicial de catálogos mediante scripts SQL para poblar las tablas de `Nivel Estudio` (Licenciatura/Posgrado) y `ViaAdmision`[cite: 109, 118].
+
+### 4.2. Demostración Funcional
+
+Aunque el sistema se encuentra en fase de prototipo, se ha validado el **Flujo Crítico de Registro y Validación**:
+
+1.  [cite_start]**Inicio**: El aspirante accede al formulario de registro (Capa *Boundary*) e ingresa sus datos personales[cite: 47, 73].
+2.  [cite_start]**Validación de Identidad**: El sistema genera un `idUnicoAspirante` y realiza una verificación de duplicidad[cite: 213, 215].
+3.  [cite_start]**Carga Documental**: Se inicia el estado `PENDIENTE_CARGA` en la máquina de estados, permitiendo la vinculación de archivos mediante el servicio de Mayan EDMS[cite: 90, 123, 232].
+4.  [cite_start]**Cierre de Solicitud**: El registro transita al estado `REGISTRADO` una vez que se completan los requisitos mínimos (Promedio y CURP)[cite: 96, 224].
+
+**Evidencia Visual**:
+* *[Archivo: Captura_Formulario_Registro.png]* - Interfaz de entrada de datos del aspirante.
+* *[Archivo: Log_PostgreSQL_Insert.png]* - Registro exitoso en la tabla `Aspirante` con timestamp de auditoría.
+
+### 4.3. Scripts de Automatización
+
+Se han consolidado los siguientes scripts para garantizar la reproducibilidad del entorno:
+
+* **Script de Instalación (`deploy_sie.sh`)**: Automatiza la creación del pod en Podman, levanta la base de datos PostgreSQL y los servicios de gestión documental[cite: 275].
+* **Script de Backup/Rollback (`db_maintenance.sh`)**: Realiza volcados de datos (`pg_dump`) de la base de datos de Admisión y permite la reversión a estados previos de configuración del Diccionario Activo.
+* [cite_start]**Casos de Prueba Automatizados**: Scripts de validación en Python para verificar que el sistema rechace solicitudes con promedios inferiores a 7.0 o CURPs con formato inválido[cite: 37, 238].
+
+---
+### Autocrítica Constructiva del Equipo
+
+* **Logros**: El equipo logró una **Especificación Técnica Completa** y un modelo de datos que soporta la complejidad normativa del RESUAM, incluyendo casos de vulnerabilidad y posgrado[cite: 50, 144].
+* **Faltantes**: Debido a la extensión del proyecto y complicaciones técnicas con la resolución de DNS en el entorno de contenedores, la integración total de todas las ventanas en el Diccionario Activo quedó como una tarea pendiente de implementación final.
+* **Experiencia**: Cada miembro fortaleció competencias en áreas críticas: desde la administración de servidores **Rocky Linux** y orquestación con **Podman**, hasta el modelado avanzado en **Enterprise Architect** y la gestión de requerimientos institucionales complejos[cite: 148, 274].
+---
+## 5. Lecciones Aprendidas y Deuda Técnica
+
+Esta sección presenta una reflexión crítica sobre el proceso de ingeniería aplicado, identificando los aciertos y las áreas que requieren atención futura para garantizar la sostenibilidad del SiE.
+
+### 5.1. Lo que Funcionó Bien
+* [cite_start]**Arquitectura Basada en Metadatos**: La decisión de utilizar una arquitectura modular facilitó la adaptación rápida a los cambios en la normativa institucional[cite: 149, 171].
+* [cite_start]**Modelado de Dominio Robusto**: Contar con un modelo de datos normalizado en Enterprise Architect permitió que el equipo tuviera una "fuente única de verdad" para la lógica de negocio de Admisión[cite: 182, 260].
+* [cite_start]**Infraestructura Contenerizada**: El uso de Podman para orquestar PostgreSQL, Redis y Mayan EDMS permitió aislar servicios y simplificar el entorno de desarrollo[cite: 275, 276].
+
+### 5.2. Áreas de Mejora
+* **Gestión de Dependencias de Red**: La resolución de conflictos de DNS internos en los contenedores consumió tiempo crítico que pudo evitarse con una planeación de red más temprana.
+* [cite_start]**Sincronización de Artefactos**: Faltó una definición más ágil de los criterios de aceptación iniciales, lo que generó procesos de retrabajo al ajustar las validaciones de vulnerabilidad y posgrado en el modelo UML[cite: 50, 115].
+
+### 5.3. Deuda Técnica Identificada (SWEBOK: KA 7.2.1)
+
+De acuerdo con el área de **Gestión de la Ingeniería de Software (KA 7)**, se han identificado los siguientes ítems de deuda técnica que deben ser saldados en etapas posteriores:
+
+| Ítem de Deuda Técnica | Descripción | Prioridad | Plan de Acción |
+| :--- | :--- | :--- | :--- |
+| **Refactorización de Red** | [cite_start]Optimización de la comunicación entre Pods para eliminar latencias en el servicio de Mayan EDMS[cite: 224]. | **Alta** | Configurar una red de puente (Bridge) dedicada en Podman. |
+| **Automatización de Pruebas** | [cite_start]Cobertura completa de pruebas unitarias para el cálculo de puntajes y asignación de cupos[cite: 227, 228]. | **Media** | Implementar suite de pruebas en Python/PyTest durante el siguiente sprint. |
+| **Migración de Metadatos** | [cite_start]Mapeo total de las ventanas de iDempiere pendientes según el modelo de Enterprise Architect[cite: 140]. | **Baja** | Programar carga masiva de AD_Window en la fase de estabilización. |
+
+---
+### Conclusión Final del Informe
+El **Módulo 1: Admisión** queda entregado con una base arquitectónica sólida y una infraestructura operativa en Rocky Linux. [cite_start]Aunque existen retos de implementación pendientes, el valor entregado en términos de **Análisis de Requisitos** y **Diseño de Datos** asegura que la UAM Iztapalapa cuente con una hoja de ruta clara para la automatización total de su proceso de ingreso[cite: 148, 280, 285].
+
+---
+## 6. Conclusiones y Recomendaciones
+
+[cite_start]Basado en la evidencia técnica recolectada durante el trimestre y los artefactos de diseño producidos, el equipo concluye que el **Módulo 1: Admisión** cumple con los estándares de **Diseño Lógico y Arquitectónico** definidos en el **SWEBOK v4 (KA 1, 2 y 12)**[cite: 146, 172, 280]. Sin embargo, debido a las restricciones de tiempo y las observaciones en la infraestructura de red, no cumple totalmente con los estándares de **Calidad Operativa (KA 6)** para una puesta en producción inmediata.
+
+### 6.1. Recomendaciones para el Uso del Módulo
+Para completar el módulo y asegurar su operatividad institucional, se recomienda:
+* [cite_start]**Finalización del Mapeo de Metadatos**: Completar la vinculación de todas las entidades del modelo UML (como `Vulnerabilidad` y `ResultadoAdmision`) hacia el Diccionario Activo de iDempiere[cite: 50, 69, 106].
+* [cite_start]**Estabilización de Integraciones**: Resolver la persistencia y resolución de nombres en el entorno de Podman para asegurar la comunicación fluida con el motor de estados y el subsistema de auditoría[cite: 232, 239, 276].
+* [cite_start]**Validación de Carga**: Ejecutar pruebas de estrés para simular la concurrencia de miles de aspirantes, validando el rendimiento del procesamiento por lotes en la asignación de cupos[cite: 246, 247, 271].
+
+### 6.2. Condiciones de Liberación
+Se recomienda la liberación del módulo para una **Fase Piloto del SiE** únicamente bajo las siguientes condiciones:
+* [cite_start]**Monitoreo Continuo**: Seguimiento de la métrica de **Integridad de Transacciones** en el subsistema de auditoría durante las primeras 4 semanas de uso[cite: 242, 273].
+* [cite_start]**Entorno Controlado**: El despliegue inicial debe limitarse a una sola Unidad (ej. Iztapalapa) para validar el comportamiento del **Pipeline de Selección** antes de una escalada horizontal[cite: 222, 253, 271].
+
+---
+## 7. Anexos y Referencias
+
+### 7.1. Matriz de Trazabilidad
+Se adjunta el enlace al documento de control que vincula los Requerimientos del RESUAM con los Casos de Uso y las instrucciones de validación técnica:
+* [Enlace a Matriz_Trazabilidad_Admision_Equipo6.xlsx]
+
+### 7.2. Referencias Bibliográficas
+* **IEEE Computer Society. (2025).** *Guide to the Software Engineering Body of Knowledge (SWEBOK v4)*. Secciones consultadas:
+    * [cite_start]KA 1: Software Requirements[cite: 148].
+    * [cite_start]KA 2: Software Design[cite: 167].
+    * [cite_start]KA 5: Software Testing[cite: 222].
+    * [cite_start]KA 6: Software Engineering Operations[cite: 149].
+    * [cite_start]KA 8: Software Configuration Management[cite: 171].
+    * [cite_start]KA 12: Software Quality[cite: 280].
+    * [cite_start]KA 13: Software Security[cite: 248].
+* **Repositorio Oficial SiE:** [https://github.com/jzavalar/SiE](https://github.com/jzavalar/SiE)
+* [cite_start]**Documentación Técnica del Proyecto:** * Especificación Técnica Completa SiE-UAM[cite: 144].
+    * [cite_start]Diagrama de Modelo de Datos - Módulo Admisión (Enterprise Architect)[cite: 12, 47, 123].
+* **Comunidad iDempiere:** Guía de configuración del Diccionario Activo (ADD) y manejo de AD_Table.
