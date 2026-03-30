@@ -14,7 +14,7 @@ Informe de Cierre y Auditoría: Módulo 1 - Admision (SiE)
 ---
 ## 2. Resumen Ejecutivo
 
-El objetivo principal del **Módulo 1: Admisión** se cumplió en su fase de **Análisis, Diseño Arquitectónico y Definición de Datos**, logrando una alineación del 100% con las reglas de negocio del **RESUAM**. El sistema se presenta como un prototipo funcional estable en su infraestructura base (**Rocky Linux/PostgreSQL**), permitiendo la captura y validación de datos críticos como la congruencia de identidad (CURP/RFC) y el control de promedios mínimos. 
+El objetivo principal del **Módulo 1: Admisión** se cumplió en su fase de **Análisis, Diseño Arquitectónico y Definición de Datos**, logrando una alineación del 100% con las reglas de negocio del **RESUAM**. El sistema se presenta como un prototipo funcional estable en su infraestructura base (**Rocky Linux/PostgreSQL**), permitiendo la captura y validación de datos críticos como la congruencia de identidad y el control de promedios mínimos.
 
 El mayor logro técnico radica en la **traducción de la normativa institucional a un modelo de datos relacional y lógico en Enterprise Architect**, asegurando que procesos complejos como el Concurso Abierto, Pase UAM y Admisión a Posgrado cuenten con una estructura de persistencia íntegra. Aunque la integración total con el Diccionario Activo (ADD) de iDempiere permanece como una observación técnica por tiempos de despliegue, la arquitectura entregada garantiza que el **SiE** posea ahora la capacidad de gestionar el ciclo de vida del aspirante con total trazabilidad y seguridad.
 
