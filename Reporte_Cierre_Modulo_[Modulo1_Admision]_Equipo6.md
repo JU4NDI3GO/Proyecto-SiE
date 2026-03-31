@@ -46,9 +46,8 @@ podman run --rm -v vol_postgres_admision:/data -v /backups/sie:/backup alpine \
 # 4. Reiniciar servicios
 podman pod start pod_sie_admision
 echo "Sistema restaurado a la Línea Base (KA 8.2.3)"
-Automatización y Rollback: Para asegurar la continuidad, se diseñó un mecanismo de reversión basado en snapshots de volúmenes de datos y detención controlada de pods conforme a la KA 6.3.3 (Rollback and Data Migration).
-
-Referencia SWEBOK: Se priorizó la integridad de la base de datos antes de cualquier actualización de esquema, asegurando la consistencia del sistema
+* Automatización y Rollback: Para asegurar la continuidad, se diseñó un mecanismo de reversión basado en snapshots de volúmenes de datos y detención controlada de pods conforme a la KA 6.3.3 (Rollback and Data Migration).
+* Referencia SWEBOK: Se priorizó la integridad de la base de datos antes de cualquier actualización de esquema, asegurando la consistencia del sistema
 
 ### 3.2. Gestión de Configuración (KA 8)
 
