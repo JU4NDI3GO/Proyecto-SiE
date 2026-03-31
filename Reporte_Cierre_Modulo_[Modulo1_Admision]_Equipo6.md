@@ -26,6 +26,26 @@ Esta sección detalla los fundamentos de ingeniería aplicados en el **Módulo 1
 ### 3.1. Ingeniería de Operaciones (KA 6) y Despliegue
 
 * **Estrategia DEV-TEST-PROD**: Se implementó una separación de entornos para garantizar la estabilidad del SiE. El entorno **DEV** se centró en la configuración de contenedores Podman y PostgreSQL, mientras que **TEST** se utilizó para validar la conectividad de red entre los servicios de Mayan EDMS y Redis.
+* Evidencia de Mecanismo de Rollback (KA 6.3.3):
+Para garantizar la disponibilidad del SiE ante fallos en el despliegue de nuevos esquemas de base de datos, se definió el siguiente procedimiento de reversión basado en contenedores:
+#!/bin/bash
+# Script de Rollback: Restauración de Base de Datos de Admisión
+echo "Iniciando recuperación de Baseline aprobada..."
+
+# 1. Detener el pod actual con errores
+podman pod stop pod_sie_admision
+
+# 2. Eliminar volumen de datos corrupto
+podman volume rm vol_postgres_admision
+
+# 3. Restaurar desde el último Snapshot estable (Backup de Seguridad)
+podman volume create vol_postgres_admision
+podman run --rm -v vol_postgres_admision:/data -v /backups/sie:/backup alpine \
+  tar xzf /backup/db_baseline_admision.tar.gz -C /data
+
+# 4. Reiniciar servicios
+podman pod start pod_sie_admision
+echo "Sistema restaurado a la Línea Base (KA 8.2.3)"
 * **Referencia SWEBOK**: Se aplicaron los principios de la **KA 6.2 (Entornos)** para el aislamiento de recursos y **KA 6.3.2 (Release Engineering)** para la gestión de versiones del despliegue.
 **Automatización y Rollback:** Para asegurar la continuidad, se diseñó un mecanismo de reversión basado en snapshots de volúmenes de datos y detención controlada de pods.
 **Referencia SWEBOK:** Conforme a la KA 6.3.3 (Rollback and Data Migration), se priorizó la integridad de la base de datos antes de cualquier actualización de esquema.
@@ -47,6 +67,8 @@ Esta sección detalla los fundamentos de ingeniería aplicados en el **Módulo 1
 ### 3.3. Pruebas y Calidad (KA 5 y KA 12)
 
 **Estrategia de Pruebas:** Se diseñaron pruebas de integración para el Pipeline de Selección, verificando el flujo desde el registro documental hasta el cálculo de puntaje.
+<img width="766" height="121" alt="image" src="https://github.com/user-attachments/assets/1bb62de3-6234-49ae-b8ec-f13d7f1e019e" />
+
 **Referencia SWEBOK:** Basado en KA 5.2 (Test Levels) para pruebas de integración y KA 12.3.4 (V&V) para la verificación normativa del RESUAM.
 **Logs y Resultados:** Se validó el motor de estados, confirmando transiciones correctas entre estados como REGISTRADO (Código 0) y NO SELECCIONADO (Código 11).
 
@@ -59,9 +81,22 @@ Esta sección detalla los fundamentos de ingeniería aplicados en el **Módulo 1
 ### 3.4. Seguridad (KA 13)
 
 **Controles Implementados:** Se diseñó una estructura de permisos basada en roles para el acceso a datos sensibles (especialmente en el submódulo de Vulnerabilidad).
+Control de Acceso basado en Roles (RBAC): Se diseñó una estructura de permisos que separa las funciones de "Capturista de Documentos" (acceso limitado a la carga de archivos) de "Coordinador de Selección" (acceso a resultados y dictámenes), protegiendo la integridad de los datos sensibles, especialmente en el submódulo de Vulnerabilidad.
+
+Seguridad en la Capa de Datos: Implementación de llaves foráneas y restricciones (constraints) en PostgreSQL para asegurar la integridad referencial entre las tablas de Aspirante, Vulnerabilidad y SolicitudAdmision, evitando la manipulación o pérdida de información crítica.
+
+Protección de la Privacidad: El sistema integra validaciones lógicas de identidad mediante la verificación de estructura con RENAPO (CURP) y SAT (RFC) para garantizar la veracidad de los registros y prevenir el robo de identidad.
 **Validaciones:** El sistema integra validaciones externas con RENAPO (CURP) y SAT (RFC) para garantizar la veracidad de la identidad.
+Integridad de Identidad: El sistema implementa capas de validación lógica para la estructura de CURP (vía RENAPO) y RFC (vía SAT), asegurando que cada registro corresponda a una identidad ciudadana válida antes de permitir el avance al concurso de selección.
+
+Cumplimiento Normativo (RESUAM): Se integraron validaciones automáticas de promedio mínimo (7.0) y verificación de antecedentes académicos (bachillerato concluido), bloqueando solicitudes que no cumplan con los requisitos legales de la convocatoria.
+
+Consistencia Documental: El módulo vincula cada validación con el Mayan EDMS (gestor documental), asegurando que los archivos cargados coincidan con los datos declarados por el aspirante.
 **Gestión de Identidad:** Uso de un generador de ID único transversal para evitar duplicidad y asegurar la trazabilidad.
-**Referencia SWEBOK:** Aplicación de KA 13.4 (Security Engineering for Software Systems) para la protección de la privacidad del aspirante.
+Identificador Único: Uso de un generador de ID único transversal (basado en el modelo de datos diseñado en EA) para evitar duplicidades en el padrón de aspirantes y asegurar una trazabilidad completa en el Subsistema de Auditoría.
+
+**Referencia SWEBOK:** 
+Aplicación de KA 13.4 (Security Engineering for Software Systems): El diseño prioriza la seguridad desde la arquitectura (Security by Design), asegurando que la privacidad del aspirante y la consistencia de sus registros académicos se mantengan durante todo el proceso de admisión.
 
 ---
 ## 4. Evidencias Técnicas del Producto
@@ -71,6 +106,7 @@ Esta sección documenta el estado real del **Módulo 1: Admisión**, contrastand
 ### 4.1. Configuración del Diccionario Activo (iDempiere)
 
 El equipo enfocó sus esfuerzos en la transición del modelo relacional hacia la estructura de metadatos de iDempiere, logrando los siguientes hitos:
+<img width="772" height="811" alt="image" src="https://github.com/user-attachments/assets/63afb30f-d5c3-48dc-9e77-72531c58e2b9" />
 
 * **Alcance de Despliegue**: Se logró el despliegue exitoso de la instancia de iDempiere sobre el stack de contenedores, permitiendo el acceso al Panel de Control del Sistema.
 * **Artefactos Clave**:
@@ -82,6 +118,7 @@ El equipo enfocó sus esfuerzos en la transición del modelo relacional hacia la
 ### 4.2. Demostración Funcional
 
 Aunque el sistema se encuentra en fase de prototipo, se ha validado el **Flujo Crítico de Registro y Validación**:
+<img width="596" height="638" alt="image" src="https://github.com/user-attachments/assets/b37e1e47-7fa2-4379-993a-3f694ed1de18" />
 
 1.  **Inicio**: El aspirante accede al formulario de registro (Capa *Boundary*) e ingresa sus datos personales[cite: 47, 73].
 2.  **Validación de Identidad**: El sistema genera un `idUnicoAspirante` y realiza una verificación de duplicidad[cite: 213, 215].
