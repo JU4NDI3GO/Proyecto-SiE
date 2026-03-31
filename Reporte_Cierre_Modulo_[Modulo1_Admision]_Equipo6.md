@@ -28,6 +28,7 @@ Esta sección detalla los fundamentos de ingeniería aplicados en el **Módulo 1
 * **Estrategia DEV-TEST-PROD**: Se implementó una separación de entornos para garantizar la estabilidad del SiE. El entorno **DEV** se centró en la configuración de contenedores Podman y PostgreSQL, mientras que **TEST** se utilizó para validar la conectividad de red entre los servicios de Mayan EDMS y Redis.
 * Evidencia de Mecanismo de Rollback (KA 6.3.3):
 Para garantizar la disponibilidad del SiE ante fallos en el despliegue de nuevos esquemas de base de datos, se definió el siguiente procedimiento de reversión basado en contenedores:
+```bash
 #!/bin/bash
 # Script de Rollback: Restauración de Base de Datos de Admisión
 echo "Iniciando recuperación de Baseline aprobada..."
@@ -46,6 +47,7 @@ podman run --rm -v vol_postgres_admision:/data -v /backups/sie:/backup alpine \
 # 4. Reiniciar servicios
 podman pod start pod_sie_admision
 echo "Sistema restaurado a la Línea Base (KA 8.2.3)"
+
 * Automatización y Rollback: Para asegurar la continuidad, se diseñó un mecanismo de reversión basado en snapshots de volúmenes de datos y detención controlada de pods conforme a la KA 6.3.3 (Rollback and Data Migration).
 * Referencia SWEBOK: Se priorizó la integridad de la base de datos antes de cualquier actualización de esquema, asegurando la consistencia del sistema
 
