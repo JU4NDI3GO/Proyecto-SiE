@@ -130,6 +130,7 @@ Aunque el sistema se encuentra en fase de prototipo, se ha validado el **Flujo C
 **Evidencia Visual**:
 
 [Diagramas de secuencia](https://github.com/JU4NDI3GO/Proyecto-SiE/tree/main/Documentaci%C3%B3n/Modulo%201/Diagramas%20de%20secuencia)
+[Casos de uso](https://github.com/JU4NDI3GO/Proyecto-SiE/tree/main/Documentaci%C3%B3n/Modulo%201/Casos%20de%20uso)
 
 ### 4.3. Scripts de Automatización
 
