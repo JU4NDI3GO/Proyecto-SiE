@@ -106,7 +106,7 @@ Esta sección documenta el estado real del **Módulo 1: Admisión**, contrastand
 
 El equipo se enfocó en la transición del modelo relacional hacia la estructura de metadatos de iDempiere, logrando lo siguiente:
 <img width="772" height="811" alt="image" src="https://github.com/user-attachments/assets/63afb30f-d5c3-48dc-9e77-72531c58e2b9" />
-*Diagram de modulo de admisión.
+* Diagrama de modulo de admisión.
 
 * **Alcance de Despliegue**: Se logró el despliegue exitoso de la instancia de iDempiere sobre el stack de contenedores, permitiendo el acceso al Panel de Control del Sistema.
 * **Artefactos Clave**:
@@ -121,14 +121,20 @@ Aunque el sistema se encuentra en fase de prototipo, se ha validado el **Flujo C
 
 <img width="596" height="638" alt="image" src="https://github.com/user-attachments/assets/b37e1e47-7fa2-4379-993a-3f694ed1de18" />
 
-1.  **Inicio**: El aspirante accede al formulario de registro (Capa *Boundary*) e ingresa sus datos personales[cite: 47, 73].
-2.  **Validación de Identidad**: El sistema genera un `idUnicoAspirante` y realiza una verificación de duplicidad[cite: 213, 215].
-3.  **Carga Documental**: Se inicia el estado `PENDIENTE_CARGA` en la máquina de estados, permitiendo la vinculación de archivos mediante el servicio de Mayan EDMS[cite: 90, 123, 232].
-4.  **Cierre de Solicitud**: El registro transita al estado `REGISTRADO` una vez que se completan los requisitos mínimos (Promedio y CURP)[cite: 96, 224].
+
+1.  **Inicio**: El aspirante accede al formulario de registro (Capa *Boundary*) e ingresa sus datos personales.
+2.  **Validación de Identidad**: El sistema genera un `idUnicoAspirante` y realiza una verificación de duplicidad.
+3.  **Carga Documental**: Se inicia el estado `PENDIENTE_CARGA` en la máquina de estados, permitiendo la vinculación de archivos mediante el servicio de Mayan EDMS.
+4.  **Cierre de Solicitud**: El registro transita al estado `REGISTRADO` una vez que se completan los requisitos mínimos (Promedio y CURP).
 
 **Evidencia Visual**:
-* *[Archivo: Captura_Formulario_Registro.png]* - Interfaz de entrada de datos del aspirante.
-* *[Archivo: Log_PostgreSQL_Insert.png]* - Registro exitoso en la tabla `Aspirante` con timestamp de auditoría.
+[Admision a posgrado.bmp](https://github.com/user-attachments/files/26397147/Admision.a.posgrado.bmp)
+
+[Alta de usuario.bmp](https://github.com/user-attachments/files/26397149/Alta.de.usuario.bmp)
+
+
+
+
 
 ### 4.3. Scripts de Automatización
 
