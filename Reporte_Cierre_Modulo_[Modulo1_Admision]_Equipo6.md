@@ -128,13 +128,10 @@ Aunque el sistema se encuentra en fase de prototipo, se ha validado el **Flujo C
 4.  **Cierre de Solicitud**: El registro transita al estado `REGISTRADO` una vez que se completan los requisitos mínimos (Promedio y CURP).
 
 **Evidencia Visual**:
-[Admision a posgrado.bmp](https://github.com/user-attachments/files/26397147/Admision.a.posgrado.bmp)
 
-[Alta de usuario.bmp](https://github.com/user-attachments/files/26397149/Alta.de.usuario.bmp)
+[Admision a posgrado.bmp](https://github.com/JU4NDI3GO/Proyecto-SiE/blob/main/Documentaci%C3%B3n/Modulo%201/Diagramas%20de%20secuencia/Admision%20a%20posgrado.bmp)
 
-
-
-
+[Diagramas de secuencia](https://github.com/JU4NDI3GO/Proyecto-SiE/tree/main/Documentaci%C3%B3n/Modulo%201/Diagramas%20de%20secuencia)
 
 ### 4.3. Scripts de Automatización
 
