@@ -48,7 +48,7 @@ podman run --rm -v vol_postgres_admision:/data -v /backups/sie:/backup alpine \
 podman pod start pod_sie_admision
 echo "Sistema restaurado a la Línea Base (KA 8.2.3)"
 ```
-* Automatización y Rollback: Para asegurar la continuidad, se diseñó un mecanismo de reversión basado en snapshots de volúmenes de datos y detención controlada de pods conforme a la KA 6.3.3 (Rollback and Data Migration).
+* Automatización y Rollback: Para asegurar la continuidad, se diseñó un mecanismo de reversión basado en snapshots de volúmenes de datos.
 * Referencia SWEBOK: Se priorizó la integridad de la base de datos antes de cualquier actualización de esquema, asegurando la consistencia del sistema
 
 ### 3.2. Gestión de Configuración (KA 8)
@@ -80,14 +80,13 @@ echo "Sistema restaurado a la Línea Base (KA 8.2.3)"
 
 ### 3.4. Seguridad (KA 13)
 
-**Controles Implementados:** Se diseñó una estructura de permisos basada en roles para el acceso a datos sensibles (especialmente en el submódulo de Vulnerabilidad).
+**Controles Implementados:** Se diseñó una estructura de permisos basada en roles para el acceso a datos sensibles.
 Control de Acceso basado en Roles (RBAC): Se diseñó una estructura de permisos que separa las funciones de "Capturista de Documentos" (acceso limitado a la carga de archivos) de "Coordinador de Selección" (acceso a resultados y dictámenes), protegiendo la integridad de los datos sensibles, especialmente en el submódulo de Vulnerabilidad.
 
-Seguridad en la Capa de Datos: Implementación de llaves foráneas y restricciones (constraints) en PostgreSQL para asegurar la integridad referencial entre las tablas de Aspirante, Vulnerabilidad y SolicitudAdmision, evitando la manipulación o pérdida de información crítica.
+Seguridad en la Capa de Datos: Implementación de llaves foráneas y restricciones en PostgreSQL para asegurar la integridad referencial entre las tablas de Aspirante, Vulnerabilidad y SolicitudAdmision, evitando la manipulación o pérdida de información crítica.
 
-Protección de la Privacidad: El sistema integra validaciones lógicas de identidad mediante la verificación de estructura con RENAPO (CURP) y SAT (RFC) para garantizar la veracidad de los registros y prevenir el robo de identidad.
-**Validaciones:** El sistema integra validaciones externas con RENAPO (CURP) y SAT (RFC) para garantizar la veracidad de la identidad.
-Integridad de Identidad: El sistema implementa capas de validación lógica para la estructura de CURP (vía RENAPO) y RFC (vía SAT), asegurando que cada registro corresponda a una identidad ciudadana válida antes de permitir el avance al concurso de selección.
+Protección de la Privacidad: El sistema integra validaciones lógicas de identidad mediante la verificación de estructura (CURP) para garantizar la veracidad de los registros y prevenir el robo de identidad.
+Integridad de Identidad: El sistema implementa capas de validación lógica para la estructura de CURP, asegurando que cada registro corresponda a una identidad ciudadana válida antes de permitir el avance al concurso de selección.
 
 Cumplimiento Normativo (RESUAM): Se integraron validaciones automáticas de promedio mínimo (7.0) y verificación de antecedentes académicos (bachillerato concluido), bloqueando solicitudes que no cumplan con los requisitos legales de la convocatoria.
 
@@ -103,21 +102,23 @@ Aplicación de KA 13.4 (Security Engineering for Software Systems): El diseño p
 
 Esta sección documenta el estado real del **Módulo 1: Admisión**, contrastando los diseños conceptuales con los artefactos técnicos generados y la infraestructura desplegada.
 
-### 4.1. Configuración del Diccionario Activo (iDempiere)
+### 4.1. Configuración del Diccionario Activo
 
-El equipo enfocó sus esfuerzos en la transición del modelo relacional hacia la estructura de metadatos de iDempiere, logrando los siguientes hitos:
+El equipo se enfocó en la transición del modelo relacional hacia la estructura de metadatos de iDempiere, logrando lo siguiente:
 <img width="772" height="811" alt="image" src="https://github.com/user-attachments/assets/63afb30f-d5c3-48dc-9e77-72531c58e2b9" />
+*Diagram de modulo de admisión.
 
 * **Alcance de Despliegue**: Se logró el despliegue exitoso de la instancia de iDempiere sobre el stack de contenedores, permitiendo el acceso al Panel de Control del Sistema.
 * **Artefactos Clave**:
-    * **AD_Table**: Definición de la tabla maestra `Aspirante` con campos normalizados para CURP y RFC[cite: 187, 219].
-    * **AD_Element**: Creación de elementos de datos para `idUnicoAspirante` y `viaAdmision`[cite: 37, 215].
-* **Integridad Referencial**: Se garantizó la consistencia de datos en el nivel de **PostgreSQL 15** mediante la definición de llaves foráneas (*Foreign Keys*) entre las tablas `Convocatoria` y `SolicitudAdmision`, asegurando que ninguna solicitud exista sin un marco temporal válido[cite: 263].
-* **Prueba de Carga**: Se realizó una importación inicial de catálogos mediante scripts SQL para poblar las tablas de `Nivel Estudio` (Licenciatura/Posgrado) y `ViaAdmision`[cite: 109, 118].
+    * **AD_Table**: Definición de la tabla maestra `Aspirante` con campos normalizados para CURP.
+    * **AD_Element**: Creación de elementos de datos para aspirantes`idUnicoAspirante` y `viaAdmision`.
+* **Integridad Referencial**: Se garantizó la consistencia de datos en el nivel de **PostgreSQL** mediante la definición de llaves foráneas entre las tablas `Convocatoria` y `SolicitudAdmision`, asegurando que ninguna solicitud exista sin un marco temporal válido.
+* **Prueba de Carga**: Se realizó una importación inicial de catálogos mediante scripts SQL para poblar las tablas de `Nivel Estudio` (Licenciatura/Posgrado) y `ViaAdmision`.
 
 ### 4.2. Demostración Funcional
 
 Aunque el sistema se encuentra en fase de prototipo, se ha validado el **Flujo Crítico de Registro y Validación**:
+
 <img width="596" height="638" alt="image" src="https://github.com/user-attachments/assets/b37e1e47-7fa2-4379-993a-3f694ed1de18" />
 
 1.  **Inicio**: El aspirante accede al formulario de registro (Capa *Boundary*) e ingresa sus datos personales[cite: 47, 73].
