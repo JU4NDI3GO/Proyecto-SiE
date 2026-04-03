@@ -4,8 +4,8 @@ Informe de Cierre y Auditoría: Módulo 1 - Admision (SiE)
 
 | Campo | Detalle |
 | :--- | :--- |
-| **Equipo** | Equipo #6 (Proyecto SiE - UAM Iztapalapa) |
-| **Integrantes y Roles** | **PM/BA:** [Oscar] (Análisis RESUAM y Requisitos) <br> **Arquitecto:** [Angel Gabriel] (Diseño UML en Enterprise Architect) <br> **DevOps:** [Juan Diego] (Infraestructura Rocky Linux / Podman) <br> **QA:** [Jesus] (Validación de Reglas de Negocio) |
+| **Equipo** | Equipo #1 (Proyecto SiE - UAM Iztapalapa) |
+| **Integrantes y Roles** | **PM/BA:** [Oscar Rodriguez Ramirez] (Análisis RESUAM y Requisitos) <br> **Arquitecto:** [Angel Gabriel Calderon Hernandez] (Diseño UML en Enterprise Architect) <br> **DevOps:** [Juan Diego Ayala Velazquez] (Infraestructura Rocky Linux / Podman) <br> **QA:** [Jesus Mendez Vega] (Validación de Reglas de Negocio) |
 | **Módulo Asignado** | **Módulo 1: Admisión.** Gestión integral del proceso de ingreso: Registro, Concurso Abierto, Pase UAM, Posgrado, Extranjeros, Gestión de Cupo y Asignación de Matrícula. |
 | **Estado Final** | **DESPLEGADO EN PROTOTIPO / CON OBSERVACIONES TÉCNICAS** |
 | **Fecha de Cierre** | Miércoles 01 de Abril de 2026 |
